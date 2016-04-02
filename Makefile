@@ -21,11 +21,17 @@ CFLAGS  = -g -Wall
 #
 all: avisim
 
-avisim:  avisim.o 
-	$(CC) $(CFLAGS) -o avisim avisim.o
+avisim:  avisim.o alg_deployment1.o devicelib.o
+	$(CC) $(CFLAGS) -o $@ $^
 
 avisim.o: 
 	$(CC) $(CFLAGS) -c avisim.c
+    
+devicelib.o:
+	$(CC) $(CFLAGS) -c devicelib.c
+
+alg_deployment1.o:
+	$(CC) $(CFLAGS) -c alg_deployment1.c
 
 # To start over from scratch, type 'make clean'.  This
 # removes the executable file, as well as old .o object

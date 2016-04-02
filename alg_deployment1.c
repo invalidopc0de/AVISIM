@@ -1,11 +1,11 @@
-#include "devicelib.h"
+#include "algorithm.h"
 
-void initialize(DeviceSpec* device)
+void init_algorithm(DeviceSpec* device)
 {
-    
+    fireCharge(device, 0);
 }
 
-void evaluate(DeviceSpec* device)
+void eval_algorithm(DeviceSpec* device)
 {
-    
+    fireCharge(device, 0);
 }

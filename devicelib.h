@@ -8,15 +8,14 @@ typedef struct device_spec_t {
     int (*get_time)();
     int (*get_altitude)();
     
-    void (*fireCharge)(int);
+    void (*fire_charge)(int);
 } DeviceSpec;
 
-int getTimeMS(DeviceSpec* device);
 
-// Sensor readings
-int getAltitudeSensorValue(DeviceSpec* device);
+extern int getTimeMS(DeviceSpec* device);
 
-// Device drivers 
-void fireCharge(DeviceSpec* device, int chargeNumber);
+extern int getAltitudeSensorValue(DeviceSpec* device);
+
+extern void fireCharge(DeviceSpec* device, int chargeNumber);
 
 #endif
