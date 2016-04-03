@@ -1,10 +1,9 @@
-AC_INIT(src/avisim.c)
+AC_INIT(avisim, 0.0.0)
 
-PACKAGE=avisim
-VERSION=0.1.0
-
-AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AC_CONFIG_SRCDIR(src/avisim.c)
+AM_INIT_AUTOMAKE
 
 AC_PROG_CC
+AC_CHECK_LIB(m, pow)
 
 AC_OUTPUT(Makefile src/Makefile)
