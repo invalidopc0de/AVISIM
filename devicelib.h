@@ -8,13 +8,23 @@ typedef struct device_spec_t {
     int (*get_time)();
     int (*get_altitude)();
     
+    int (*get_accel_x)();
+    int (*get_accel_y)();
+    int (*get_accel_z)();
+    
     void (*fire_charge)(int);
 } DeviceSpec;
 
 
 extern int getTimeMS(DeviceSpec* device);
 
-extern int getAltitudeSensorValue(DeviceSpec* device);
+extern int getAltitude(DeviceSpec* device);
+
+extern int getAccelX(DeviceSpec* device);
+
+extern int getAccelY(DeviceSpec* device);
+
+extern int getAccelZ(DeviceSpec* device);
 
 extern void fireCharge(DeviceSpec* device, int chargeNumber);
 
