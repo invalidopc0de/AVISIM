@@ -2,6 +2,8 @@
 
 A simulator for simulating things
 
+[![Build Status](https://travis-ci.org/mscoolnerd/AVISIM.svg?branch=master)](https://travis-ci.org/mscoolnerd/AVISIM)
+
 # Update format
 
 The simulated telemetry updates are formatted as:
