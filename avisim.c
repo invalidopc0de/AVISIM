@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "devicelib.h"
 #include "algorithm.h"
 
@@ -9,24 +10,29 @@
     Could have an option to act on 'realtime' fed data?
 */
 
+#define TRUE    1
+#define FALSE   0
+
+#define MAX_LINE 128
+
 struct {
     int time_ms;
     int altitude;
 } current_values;
 
-int sim_get_time(DeviceSpec* device)
+int sim_get_time()
 {
     return current_values.time_ms += 1; // Just so simulated time isn't always the same
 }
 
-int sim_get_altitude(DeviceSpec* device)
+int sim_get_altitude()
 {
     return current_values.altitude;
 }
 
-void sim_fire_charge(DeviceSpec* device)
+void sim_fire_charge(int chargeNumber)
 {
-    printf("Charge fired!\n");
+    printf("Charge %d fired! T:%d\n", chargeNumber, current_values.time_ms);
 }
 
 DeviceSpec* create_device_spec()
@@ -36,7 +42,7 @@ DeviceSpec* create_device_spec()
     
     if (spec == NULL)
     {
-        printf("Could not allocate device spec!");
+        printf("Could not allocate device spec!\n");
         return NULL;
     }
     
@@ -50,6 +56,9 @@ DeviceSpec* create_device_spec()
 int main(int argc, char** argv)
 {
     DeviceSpec* spec = NULL;
+    char running = TRUE;
+    char buffer[MAX_LINE];
+    FILE* input_file = stdin;
     
     printf("AVISIM V1.0 By Mark Saunders\n");
     
@@ -58,6 +67,16 @@ int main(int argc, char** argv)
     
     init_algorithm(spec);
     
-    
+    while (running) {
+        // Read line from stdin
+        if (fgets(buffer, MAX_LINE, input_file) != NULL)
+        {
+            // Parse line
+            
+            // call algorithm evaluation
+        } else {
+            running = FALSE;
+        }
+    }
     return 0;
 }
