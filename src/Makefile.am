@@ -1,3 +1,4 @@
+AUTOMAKE_OPTIONS = foreign subdir-objects
 bin_PROGRAMS = avisim
 
 AM_CXXFLAGS = $(INIT_CFLAGS)

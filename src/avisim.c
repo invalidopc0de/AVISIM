@@ -63,7 +63,6 @@ void parseTelemetryUpdate(char* line)
         return;
     }
     
-    
     // Time element required
     cJSON* element = cJSON_GetObjectItem(root, "time_ms");
     if (element != NULL)
@@ -118,6 +117,7 @@ int main(int argc, char** argv)
             }
             
             // call algorithm evaluation
+            eval_algorithm(spec);
         } else {
             running = FALSE;
         }

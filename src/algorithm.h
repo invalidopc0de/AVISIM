@@ -5,6 +5,6 @@
 
 void init_algorithm(DeviceSpec* device);
 
-void eval_alforithm(DeviceSpec* device);
+void eval_algorithm(DeviceSpec* device);
 
 #endif
