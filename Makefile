@@ -13,7 +13,8 @@
 # for C++ define  CC = g++
 CC = gcc
 CFLAGS  = -g -Wall
-SRC=avisim.c devicelib.c alg_deployment1.c
+LDFLAGS = 
+SRC=avisim.c devicelib.c alg_deployment1.c cJSON/cJSON.c
 OBJ=$(SRC:.c=.o)
 EXE=avisim
 
@@ -25,8 +26,8 @@ EXE=avisim
 all: $(SRC) $(EXE)
 
 $(EXE): $(OBJ) 
-	$(CC) $(LDFLAGS) $(OBJ) -o $@
-    
+	$(CC) $(LDFLAGS) $(OBJ) -o $@ -lm 
+
 *.c.o:
 	$(CC) $(CFLAGS) $< -o $@
 

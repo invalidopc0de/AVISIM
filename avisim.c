@@ -3,6 +3,7 @@
 
 #include "devicelib.h"
 #include "algorithm.h"
+#include "cJSON/cJSON.h"
 
 /* This program will wrap around the deployment algorithm
     and feed simulated data from stdin
@@ -53,6 +54,36 @@ DeviceSpec* create_device_spec()
     return spec;
 }
 
+void parseTelemetryUpdate(char* line)
+{
+    cJSON* root = cJSON_Parse(line);
+    if (root == NULL)
+    {
+        printf("Unable to parse message!\n");
+        return;
+    }
+    
+    
+    // Time element required
+    cJSON* element = cJSON_GetObjectItem(root, "time_ms");
+    if (element != NULL)
+    {
+        current_values.time_ms = element->valueint;
+    } else {
+        printf("time_ms element required!\n");
+        return;
+    }
+    
+    // Update altimeter value
+    element = cJSON_GetObjectItem(root, "altitude");
+    if (element != NULL)
+    {
+        current_values.altitude = element->valueint;
+    }
+    
+    cJSON_Delete(root);
+}
+
 int main(int argc, char** argv)
 {
     DeviceSpec* spec = NULL;
@@ -71,7 +102,20 @@ int main(int argc, char** argv)
         // Read line from stdin
         if (fgets(buffer, MAX_LINE, input_file) != NULL)
         {
-            // Parse line
+            // Parse command type
+            switch (buffer[0])
+            {
+            case 't':
+                // TODO/MS make this safer with a max size
+                parseTelemetryUpdate(&buffer[1]);
+                break;
+            case 'q':
+                running = FALSE;
+                break;
+            default:
+                printf("Invalid command\n");
+                break;
+            }
             
             // call algorithm evaluation
         } else {
