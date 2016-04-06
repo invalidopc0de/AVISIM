@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "avisim.h"
 #include "devicelib.h"
 #include "algorithm.h"
 #include "cJSON/cJSON.h"
@@ -16,6 +17,7 @@
 
 #define MAX_LINE 128
 
+// TODO Move this into device config at some point
 struct {
     int time_ms;
     int altitude;
@@ -54,7 +56,7 @@ DeviceSpec* create_device_spec()
     return spec;
 }
 
-void parseTelemetryUpdate(char* line)
+void parseTelemetryUpdate(AVISIMConfig* config, char* line)
 {
     cJSON* root = cJSON_Parse(line);
     if (root == NULL)
@@ -83,12 +85,11 @@ void parseTelemetryUpdate(char* line)
     cJSON_Delete(root);
 }
 
-int main(int argc, char** argv)
+int avisim_run(AVISIMConfig* config)
 {
     DeviceSpec* spec = NULL;
     char running = TRUE;
     char buffer[MAX_LINE];
-    FILE* input_file = stdin;
     
     printf("AVISIM V1.0 By Mark Saunders\n");
     
@@ -99,14 +100,14 @@ int main(int argc, char** argv)
     
     while (running) {
         // Read line from stdin
-        if (fgets(buffer, MAX_LINE, input_file) != NULL)
+        if (fgets(buffer, MAX_LINE, config->simulationFile) != NULL)
         {
             // Parse command type
             switch (buffer[0])
             {
             case 't':
                 // TODO/MS make this safer with a max size
-                parseTelemetryUpdate(&buffer[1]);
+                parseTelemetryUpdate(config, &buffer[1]);
                 break;
             case 'q':
                 running = FALSE;
@@ -117,7 +118,7 @@ int main(int argc, char** argv)
             }
             
             // call algorithm evaluation
-            eval_algorithm(spec);
+            config->algorithm_eval(spec);
         } else {
             running = FALSE;
         }
